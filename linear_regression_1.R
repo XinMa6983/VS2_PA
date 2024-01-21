@@ -2,25 +2,19 @@
 library(readxl)
 library(ggplot2)
 library(car)
-
+library(QuantPsyc)
 data_model <- read_xlsx("DateSets.xlsx",sheet = "model")
 data_validate <- read_xlsx("DateSets.xlsx", sheet = "validate")
-
-nrow(data_model)
-ncol(data_model)
-colnames(data_model)
 
 ####Multiple linear regression with 2 factors####
 
 mlr_model1 <- lm( car_density ~ area + population, data = data_model)
-mlr_model1_Stepwise <- stepAIC(mlr_model1,direction = "both", trace = F)
 sink("mlr_model1_summary.txt")
 summary(mlr_model1)
-summary(mlr_model1_Stepwise)
 vif(mlr_model1)
 durbinWatsonTest(mlr_model1)
-durbinWatsonTest(mlr_model1_Stepwise)
 lm.beta(mlr_model1)
+anova(mlr_model1)
 sink()
 plot(mlr_model1)
 
@@ -33,6 +27,7 @@ summary(mlr_model2)
 vif(mlr_model2)
 durbinWatsonTest(mlr_model2)
 lm.beta(mlr_model2)
+anova(mlr_model2)
 sink()
 plot(mlr_model2)
 
